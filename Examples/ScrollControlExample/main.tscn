@@ -1,0 +1,76 @@
+[gd_scene load_steps=13 format=3 uid="uid://u346pc40yupx"]
+
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/infinite_scroll_2d.gd" id="1_fvah1"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/base_loader.gd" id="2_42nty"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Models/file_item.gd" id="3_v8u86"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/file_loader.gd" id="4_ownrl"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/texture_loader.gd" id="5_rsci8"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Models/image_item.gd" id="6_17ayv"]
+[ext_resource type="Texture2D" uid="uid://roviykm7o1fs" path="res://icon.svg" id="7_pegtf"]
+
+[sub_resource type="Resource" id="Resource_v8bm5"]
+script = ExtResource("3_v8u86")
+file = "res://Examples/ScrollControlExample/color_box.tscn"
+direction = 0
+size = Vector2(90, 90)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_3ea21"]
+script = ExtResource("3_v8u86")
+file = "res://Examples/ScrollControlExample/color_box-1.tscn"
+direction = 0
+size = Vector2(140, 140)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_xmy80"]
+script = ExtResource("4_ownrl")
+files = Array[ExtResource("3_v8u86")]([SubResource("Resource_v8bm5"), SubResource("Resource_3ea21")])
+direction = 0
+scroll_size = Vector2(0, 0)
+auto_get_size = false
+index = 1
+size = 1
+
+[sub_resource type="Resource" id="Resource_gtu2q"]
+script = ExtResource("6_17ayv")
+texture = ExtResource("7_pegtf")
+direction = 0
+size = Vector2(128, 128)
+auto_get_size = true
+
+[sub_resource type="Resource" id="Resource_tugvw"]
+script = ExtResource("5_rsci8")
+textures = Array[ExtResource("6_17ayv")]([SubResource("Resource_gtu2q")])
+direction = 0
+scroll_size = Vector2(0, 0)
+auto_get_size = true
+index = 0
+size = 1
+
+[node name="Main" type="Node2D"]
+
+[node name="AGInfiniteScroll2D" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 122.0
+offset_bottom = 195.0
+script = ExtResource("1_fvah1")
+speed = 70.0
+content_loaders = Array[ExtResource("2_42nty")]([SubResource("Resource_xmy80"), SubResource("Resource_tugvw")])
+content_size = 4
+background_color = Color(0, 0, 0, 0.996078)
+
+[node name="AGInfiniteScroll2D2" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 689.0
+offset_top = 247.0
+offset_right = 1150.0
+offset_bottom = 647.0
+script = ExtResource("1_fvah1")
+direction = 2
+speed = 70.0
+content_loaders = Array[ExtResource("2_42nty")]([SubResource("Resource_xmy80"), SubResource("Resource_tugvw")])
+content_size = 5
+background_color = Color(0, 0, 0.321569, 1)

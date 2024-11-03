@@ -2,7 +2,9 @@
 extends EditorPlugin
 
 func _enter_tree():
-	pass
+	var script = preload("ScrollControl/infinite_scroll_2d.gd")
+	var icon = preload("ScrollControl/icon.svg")
+	add_custom_type("AGInfiniteScroll2D", "Control", script, icon)
 
 func _exit_tree():
-	pass
+	remove_custom_type("AGInfiniteScroll2D")
