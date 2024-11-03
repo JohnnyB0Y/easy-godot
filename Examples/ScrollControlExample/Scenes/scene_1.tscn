@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm7tasscbtq"]
+
+[ext_resource type="Script" path="res://Examples/ScrollControlExample/Scenes/scene.gd" id="1_yyaf7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05glg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1nrul"]
+resource_local_to_scene = true
+font_size = 200
+font_color = Color(0.952941, 0.121569, 0.266667, 1)
+outline_size = 34
+shadow_color = Color(0.705882, 0.290196, 0.466667, 1)
+
+[node name="Scence" type="Node2D"]
+script = ExtResource("1_yyaf7")
+
+[node name="Number" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 120.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_05glg")
+text = "1"
+label_settings = SubResource("LabelSettings_1nrul")
+horizontal_alignment = 1
+vertical_alignment = 1

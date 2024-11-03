@@ -20,7 +20,10 @@ func pre_load_items(size: int = 3, randomly := false) -> void:
 
 ## 弹出一个 item
 func pop_item(randomly := false) -> AGResourceItem:
-	return pop_items(1, randomly).front()
+	var items = pop_items(1, randomly)
+	if items.is_empty():
+		return
+	return items.front()
 
 
 ## 弹出items
@@ -95,7 +98,7 @@ func clear_caches() -> void:
 ## loaders 是否有效?
 func is_loaders_valid() -> bool:
 	for loader in loaders:
-		if loader.is_items_valid():
+		if loader and loader.is_items_valid():
 			return true
 	return false
 

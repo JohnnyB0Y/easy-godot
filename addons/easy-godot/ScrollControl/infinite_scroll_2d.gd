@@ -63,16 +63,15 @@ var background: ColorRect:
 	get():
 		if not background:
 			background = ColorRect.new()
-			background.color = Color.REBECCA_PURPLE
+			background.color = Color.TRANSPARENT
 			background.set_anchors_preset(Control.PRESET_FULL_RECT)
 			add_child(background)
 		return background
 
+
 func _ready() -> void:
 	_pool.loaders = content_loaders
 	_pool.pre_load_items(content_size, content_randomly)
-
-
 
 
 func _process(delta: float) -> void:
@@ -84,12 +83,17 @@ func _process(delta: float) -> void:
 		for i in range(content_size):
 			var r = false if i == 0 else content_randomly
 			var ri = _pool.pop_item(r)
-			var si = AGScrollItem.new(ri, size)
-			_emit_before_use_item(si)
-			_manager.items.append(si)
-			if i == 0 and ri.direction != AGScrollManager.Direction.NONE:
-				_manager.direction = ri.direction
-			background.add_child(si)
+			if ri:
+				var si = AGScrollItem.new(ri, size)
+				_emit_before_use_item(si)
+				_manager.items.append(si)
+				if i == 0 and ri.direction != AGScrollManager.Direction.NONE:
+					_manager.direction = ri.direction
+				background.add_child(si)
+	
+	# 无数据
+	if _manager.items.is_empty():
+		return
 	
 	# 更新偏移
 	var distance = speed * delta

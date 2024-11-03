@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5j4k4fbu2308"]
+[gd_scene load_steps=15 format=3 uid="uid://b5j4k4fbu2308"]
 
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/infinite_scroll_2d.gd" id="1_6lny3"]
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/base_loader.gd" id="2_myquc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://roviykm7o1fs" path="res://icon.svg" id="5_mqivr"]
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Models/file_item.gd" id="6_wu0r2"]
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/file_loader.gd" id="7_gtcui"]
+[ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/file_index_loader.gd" id="8_pq2tc"]
 
 [sub_resource type="Resource" id="Resource_7gb73"]
 resource_local_to_scene = true
@@ -49,6 +50,17 @@ auto_get_size = false
 index = 1
 size = 1
 
+[sub_resource type="Resource" id="Resource_0txva"]
+script = ExtResource("8_pq2tc")
+path = "res://Examples/ScrollControlExample/Scenes"
+file_name = "scene_%d.tscn"
+max_size = 4
+direction = 0
+scroll_size = Vector2(0, 0)
+auto_get_size = true
+index = 0
+size = 1
+
 [node name="Main" type="Node2D"]
 
 [node name="AGInfiniteScroll2D" type="Control" parent="."]
@@ -75,3 +87,16 @@ direction = 3
 speed = 50.0
 content_loaders = Array[ExtResource("2_myquc")]([SubResource("Resource_6442o")])
 content_size = 5
+background_color = Color(0.4, 0.2, 0.6, 1)
+
+[node name="AGInfiniteScroll2D3" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 650.0
+offset_right = 950.0
+offset_bottom = 600.0
+script = ExtResource("1_6lny3")
+content_loaders = Array[ExtResource("2_myquc")]([SubResource("Resource_0txva")])
+content_size = 4
+background_color = Color(1, 1, 1, 1)
