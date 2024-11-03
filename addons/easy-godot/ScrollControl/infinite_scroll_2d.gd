@@ -1,5 +1,5 @@
 @tool
-@icon("icon.svg")
+@icon("class_icon.png")
 class_name AGInfiniteScroll2D extends Control
 
 
