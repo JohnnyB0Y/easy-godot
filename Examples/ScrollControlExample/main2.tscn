@@ -58,7 +58,7 @@ max_size = 4
 direction = 0
 scroll_size = Vector2(0, 0)
 auto_get_size = true
-index = 0
+index = 3
 size = 1
 
 [node name="Main" type="Node2D"]

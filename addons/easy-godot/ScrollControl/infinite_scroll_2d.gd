@@ -6,15 +6,17 @@ class_name AGInfiniteScroll2D extends Control
 ## 在 item 被使用前调用;
 ## 如果需要可以设置 item.node 属性;
 ## 比如: 图片使用 Sprite2D包装, 需要可以翻转;
-signal before_use_item(item: AGScrollItem, idx: int)
+signal before_item_use(item: AGScrollItem, idx: int)
 
+## 在 item 被使用后调用;
+signal after_item_used(item: AGScrollItem, idx: int)
 
-## 滚动的方向
+## 滚动的方向, AGResourceItem.direction == NONE 时, 起作用;
 @export var direction := AGScrollManager.Direction.LEFT:
 	set(val):
 		direction = val
-		if val != _manager.direction:
-			_manager.direction = direction
+		if val != _manager.current_direction():
+			_manager.update_direction_if_needed(val)
 			_reset_pool_and_manager()
 
 ## 滚动的速度
@@ -85,10 +87,10 @@ func _process(delta: float) -> void:
 			var ri = _pool.pop_item(r)
 			if ri:
 				var si = AGScrollItem.new(ri, size)
-				_emit_before_use_item(si)
+				_emit_before_item_use(si)
 				_manager.items.append(si)
-				if i == 0 and ri.direction != AGScrollManager.Direction.NONE:
-					_manager.direction = ri.direction
+				if i == 0:
+					_manager.update_direction_if_needed(direction)
 				background.add_child(si)
 	
 	# 无数据
@@ -110,38 +112,41 @@ func _process(delta: float) -> void:
 			offset.x = size.x - front.size.x
 	_manager.update_postions(distance, offset)
 	
-	# 处理, 从父结点上移除或添加
+	# 处理, 从父结点上添加
 	if not _manager.opt_items.is_empty():
 		for item in _manager.opt_items:
 			# 需要在视图上的加上去
 			item.add_to_if_needed(background)
-			# 需要移除的视图移除掉
-			item.remove_from_if_needed(background)
 		_manager.opt_items.clear()
 	
 	# 超出屏幕?
-	var popItem = _manager.pop_front_if_needed()
-	if popItem != null:
-		var ri = _pool.pop_item(content_randomly)
-		var si = AGScrollItem.new(ri, size)
-		_emit_before_use_item(si)
-		_manager.items.append(si)
+	var item = _manager.pop_front_if_needed()
+	if item != null:
+		_emit_after_item_used(item)
+		
+		if not item.need_to_reuse: # 不复用!!!
+			item.queue_free()
+			
+			var ri = _pool.pop_item(content_randomly)
+			item = AGScrollItem.new(ri, size)
+			item.need_add_to_parent = true
+			_manager.opt_items.append(item)
+		
+		_emit_before_item_use(item)
+		_manager.items.append(item)
 		_manager.reset_offset()
-		if ri.direction != AGScrollManager.Direction.NONE:
-			_manager.direction = ri.direction
-		else:
-			_manager.direction = direction
-		# 待操作
-		popItem.need_remove_from_parent = true
-		si.need_add_to_parent = true
-		_manager.opt_items.append(popItem)
-		_manager.opt_items.append(si)
+		_manager.update_direction_if_needed(direction)
 
 
-func _emit_before_use_item(item: AGScrollItem) -> void:
+func _emit_before_item_use(item: AGScrollItem) -> void:
 	_index += 1
-	if before_use_item.get_connections().size() > 0:
-		before_use_item.emit(item, _index)
+	if before_item_use.get_connections().size() > 0:
+		before_item_use.emit(item, _index)
+
+
+func _emit_after_item_used(item: AGScrollItem) -> void:
+	if after_item_used.get_connections().size() > 0:
+		after_item_used.emit(item, _index)
 
 
 ## 重置缓存池 和 滚动管理者

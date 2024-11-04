@@ -21,10 +21,15 @@ func set_size_if_needed(_size: Vector2) -> void:
 
 
 func set_direction_if_needed(_direction: AGScrollManager.Direction) -> void:
-	if direction == AGScrollManager.Direction.NONE:
+	if is_none_direction():
 		direction = _direction
 
 
 func set_auto_get_size_if_needed(auto: bool) -> void:
 	if not auto_get_size:
 		auto_get_size = auto
+
+
+## 未设置方向?
+func is_none_direction() -> bool:
+	return direction == AGScrollManager.Direction.NONE

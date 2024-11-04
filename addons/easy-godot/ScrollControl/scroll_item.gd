@@ -20,20 +20,11 @@ var res_item: AGResourceItem
 ## 滚动的节点
 var node: CanvasItem
 
-
-## 是否要从父节点移除?
-var need_remove_from_parent := false:
-	set(val):
-		need_remove_from_parent = val
-		if need_remove_from_parent:
-			need_add_to_parent = false
+## 是否需要复用? true 用完后会添加到下次使用!
+var need_to_reuse: bool = false
 
 ## 是否要添加到父节点?
-var need_add_to_parent := false:
-	set(val):
-		need_add_to_parent = val
-		if need_add_to_parent:
-			need_remove_from_parent = false
+var need_add_to_parent := false
 
 
 func _init(res: AGResourceItem, size: Vector2) -> void:
@@ -41,20 +32,16 @@ func _init(res: AGResourceItem, size: Vector2) -> void:
 	screen_size = size
 	add_child_if_needed()
 
+
 func _ready() -> void:
 	add_child_if_needed()
-
-
-func remove_from_if_needed(node: Node) -> void:
-	if need_remove_from_parent:
-		if get_parent() == node:
-			node.remove_child(self)
 
 
 func add_to_if_needed(node: Node) -> void:
 	if need_add_to_parent:
 		if not get_parent():
 			node.add_child(self)
+		need_add_to_parent = false
 
 
 func add_child_if_needed(res := res_item) -> Node2D:

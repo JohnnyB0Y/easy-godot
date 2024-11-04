@@ -31,6 +31,25 @@ func pop_front_if_needed() -> AGScrollItem:
 	return null
 
 
+## 当前滚动的方向
+func current_direction() -> Direction:
+	if items.is_empty():
+		return direction
+	var item = items.front() as AGScrollItem
+	
+	return direction if item.res_item.is_none_direction() \
+	else item.res_item.direction
+
+
+## 更新滚动的方向?
+func update_direction_if_needed(_direction: Direction) -> void:
+	if not items.is_empty():
+		var item = items.front() as AGScrollItem
+		direction = item.res_item.direction
+	if direction == Direction.NONE:
+		direction = _direction
+
+
 ## 是否超出size范围
 func is_out_size(size: Vector2) -> bool:
 	if is_horizontal():
