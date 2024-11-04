@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b5j4k4fbu2308"]
+[gd_scene load_steps=20 format=3 uid="uid://b5j4k4fbu2308"]
 
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/infinite_scroll_2d.gd" id="1_6lny3"]
 [ext_resource type="Script" path="res://addons/easy-godot/ScrollControl/Loaders/base_loader.gd" id="2_myquc"]
@@ -58,7 +58,44 @@ max_size = 4
 direction = 0
 scroll_size = Vector2(0, 0)
 auto_get_size = true
-index = 3
+index = 0
+size = 1
+
+[sub_resource type="Resource" id="Resource_aixad"]
+script = ExtResource("4_qpfel")
+texture = ExtResource("5_mqivr")
+direction = 1
+size = Vector2(0, 0)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_cf38a"]
+script = ExtResource("4_qpfel")
+texture = ExtResource("5_mqivr")
+direction = 2
+size = Vector2(0, 0)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_do1tw"]
+script = ExtResource("4_qpfel")
+texture = ExtResource("5_mqivr")
+direction = 3
+size = Vector2(0, 0)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_31ckc"]
+script = ExtResource("4_qpfel")
+texture = ExtResource("5_mqivr")
+direction = 4
+size = Vector2(0, 0)
+auto_get_size = false
+
+[sub_resource type="Resource" id="Resource_3wgk7"]
+script = ExtResource("3_k1cwf")
+textures = Array[ExtResource("4_qpfel")]([SubResource("Resource_aixad"), SubResource("Resource_cf38a"), SubResource("Resource_do1tw"), SubResource("Resource_31ckc")])
+direction = 0
+scroll_size = Vector2(0, 0)
+auto_get_size = false
+index = 2
 size = 1
 
 [node name="Main" type="Node2D"]
@@ -67,7 +104,7 @@ size = 1
 clip_contents = true
 layout_mode = 3
 anchors_preset = 0
-offset_right = 287.0
+offset_right = 300.0
 offset_bottom = 128.0
 script = ExtResource("1_6lny3")
 speed = 100.0
@@ -93,10 +130,22 @@ background_color = Color(0.4, 0.2, 0.6, 1)
 clip_contents = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = 650.0
-offset_right = 950.0
+offset_left = 850.0
+offset_right = 1150.0
 offset_bottom = 600.0
 script = ExtResource("1_6lny3")
 content_loaders = Array[ExtResource("2_myquc")]([SubResource("Resource_0txva")])
 content_size = 4
 background_color = Color(1, 1, 1, 1)
+
+[node name="AGInfiniteScroll2D4" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 532.0
+offset_top = 253.0
+offset_right = 660.0
+offset_bottom = 381.0
+script = ExtResource("1_6lny3")
+content_loaders = Array[ExtResource("2_myquc")]([SubResource("Resource_3wgk7")])
+background_color = Color(1, 1, 1, 0)
